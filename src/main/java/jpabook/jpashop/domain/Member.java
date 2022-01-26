@@ -21,5 +21,7 @@ public class Member {
     private Address address;
 
     @OneToMany(mappedBy = "member") //나는 이 연관관계의 주인이 아니다라는 뜻; Order table에 있는 member에 연결된 거울일 뿐 + 읽기 전용으로 변함
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>(); //이렇게 해두면 null pointer exception 날 일이 없다.
+    // 또, 하이버네이트는 엔티티를 영속할 때(DB에 저장하개 되면) 컬렉션을 감싸서 하이버네이트가 제공하는 내장 컬렉션으로 변경됨. 만약 생성자나 getter에서 만지게 되면 하이버네이트 내부 매커니즘에서 문제가 생길수도 있다.
+
 }
