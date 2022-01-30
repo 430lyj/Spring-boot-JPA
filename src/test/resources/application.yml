@@ -1,19 +1,17 @@
 spring: #띄어쓰기 없음
-#  datasource: #띄어쓰기 2칸
-#    url: jdbc:h2:mem:test #메모리 모드로 동작하는 h2 db (h2 서버를 꺼도 동작 가능 -> 테스트에서 사용)
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
-#  jpa: #띄어쓰기 2칸
-#    hibernate: #띄어쓰기 4칸
-#      ddl-auto: create #띄어쓰기 6칸
-#    properties: #띄어쓰기 4칸
-#      hibernate: #띄어쓰기 6칸
-#        # show_sql: true #띄어쓰기 8칸
-#        format_sql: true #띄어쓰기 8칸
-#    defer-datasource-initialization: true
-#스프링 부트에서는 자동으로 테스트를 jdbc:h2:mem:test에 연결해서 사용하도록 함.
-
+  datasource: #띄어쓰기 2칸
+    url: jdbc:h2:tcp://localhost/~/jpashop #4칸
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa: #띄어쓰기 2칸
+    hibernate: #띄어쓰기 4칸
+      ddl-auto: create #띄어쓰기 6칸
+    properties: #띄어쓰기 4칸
+      hibernate: #띄어쓰기 6칸
+        # show_sql: true #띄어쓰기 8칸
+        format_sql: true #띄어쓰기 8칸
+    defer-datasource-initialization: true
 logging.level: #띄어쓰기 없음
   org.hibernate.SQL: debug #띄어쓰기 2칸
   org.hibernate.type: trace

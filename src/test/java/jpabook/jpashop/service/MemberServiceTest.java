@@ -27,10 +27,11 @@ public class MemberServiceTest {
     public void 회원가입() throws Exception {
         //given
         Member member = new Member();
-        member.setName("kim");
+        member.setName("kimmmmmm");
 
         //when
         Long savedId = memberService.join(member);
+        em.persist(member);
 
         //then
         em.flush(); //DB에 쿼리를 날리는 것까지 볼 수 있음.
