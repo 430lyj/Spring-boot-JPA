@@ -4,14 +4,15 @@ package jpabook.jpashop.api;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.MemberService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController //@Controller랑 @ResponseBody 합친 것 -> REST API에 적합
 @RequiredArgsConstructor
@@ -35,6 +36,40 @@ public class MemberApiController {
         return new CreateMemberResponse(id);
     }
 
+    @PutMapping("/api/v2/members/{id}")
+    public UpdateMemberResponse updateMemberResponseV2(@PathVariable("id") Long id,
+                                                       @RequestBody @Valid UpdateMemberRequest request){
+        memberService.update(id, request.getName()); //command와 query는 분리하는 게 좋으므로 command는 update 함수 내에서 처리 + controller에서 쿼리로 이후 조회해줌.
+        Member findMember = memberService.findOne(id);
+        return new UpdateMemberResponse(findMember.getId(), findMember.getName());
+    }
+
+    @GetMapping("/api/v1/members")
+    public List<Member> membersV1() {
+        return memberService.findMembers(); //entity 직접 노출 -> 원하는 정보만 보여주려면 entity에 직접 @JsonIgnore 해줘야 함.
+    }
+
+    @GetMapping("/api/v2/members")
+    public Result membersV2(){
+        List<Member> findMembers = memberService.findMembers();
+        List<MemberDto> collect = findMembers.stream()
+                .map(m -> new MemberDto(m.getName()))
+                .collect(Collectors.toList());
+        return new Result(collect.size(), collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static  class MemberDto {
+        private String name;
+    }
     @Data
     static class CreateMemberRequest{
         @NotEmpty
@@ -51,5 +86,17 @@ public class MemberApiController {
         public CreateMemberResponse(Long id){
             this.id = id;
         }
+    }
+
+    @Data
+    static class UpdateMemberRequest {
+        private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    private class UpdateMemberResponse {
+        private Long id;
+        private String name;
     }
 }
