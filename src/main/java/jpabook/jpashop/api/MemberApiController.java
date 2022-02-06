@@ -23,7 +23,7 @@ public class MemberApiController {
 
     private final MemberService memberService;
 
-    @PostMapping("/api/v1/members") //엔티티 외부 노출 방법 -> 권장하지 않음!
+    //엔티티 외부 노출 방법 -> 권장하지 않음!
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member){ //json으로 온 바디를 Member 객체에 그대로 매핑해줌.
         //@Valid를 사용하면 validation 로직이 entity (NotEmpty) 에 있음. + 엔티티의 필드 명을 바꾸면 api 스펙 자체가 바뀌게 됨. -> DTO 생성 필요!
         Long id = memberService.join(member);
