@@ -29,6 +29,7 @@ public class InitDb {
     @PostConstruct
     public void init(){
         initService.dbInit1();
+        initService.dbInit2();
     }
 
     @Component
@@ -37,6 +38,7 @@ public class InitDb {
     static class InitService {
 
         private final EntityManager em;
+
         public void dbInit1(){
             Member member = createMember("userA", "서울", "1", "1111");
             em.persist(member);
@@ -48,7 +50,10 @@ public class InitDb {
             em.persist(book2);
 
             OrderItem orderItem1 = OrderItem.createOrderItem(book1, 10000, 1);
-            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 20000, 1);
+            em.persist(orderItem1);
+            OrderItem orderItem2 = OrderItem.createOrderItem(book2, 20000, 2);
+            em.persist(orderItem2);
+
 
             Delivery delivery = new Delivery();
             delivery.setAddress(member.getAddress());
@@ -67,7 +72,9 @@ public class InitDb {
             em.persist(book2);
 
             OrderItem orderItem1 = OrderItem.createOrderItem(book1, 30000, 3);
+            em.persist(orderItem1);
             OrderItem orderItem2 = OrderItem.createOrderItem(book2, 40000, 4);
+            em.persist(orderItem2);
 
             Delivery delivery = getDelivery(member);
             Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
