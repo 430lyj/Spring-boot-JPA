@@ -95,12 +95,4 @@ public class OrderRepository {
                         " join fetch o.delivery d", Order.class //order 가져올 때 한 방에 delivery도 가져오고 싶다
         ).getResultList();
     }
-
-    public List<OrderSimpleQueryDto> findOrderDtos() {
-        return em.createQuery( //new 명령어를 사용해서 JPQL의 결과를 DTO로 즉시 변환
-                "select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address) from Order o" +
-                        " join o.member m"+
-                        " join o.delivery d", OrderSimpleQueryDto.class)
-                .getResultList();
-    }
 }
